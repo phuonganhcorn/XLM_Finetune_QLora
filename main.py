@@ -10,12 +10,12 @@ import os
 
 if __name__ == "__main__":
     # tokenizer = AutoTokenizer.from_pretrained("xlm-roberta-base")
-    model = MRCQuestionAnswering.from_pretrained("xlm-roberta-large", cache_dir='/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/model-bin/cache')
+    model = MRCQuestionAnswering.from_pretrained("xlm-roberta-large", cache_dir='/content/XLM-Finetune/model-bin2/cache')
     model.to("cuda")
 
     train_dataset, valid_dataset = data_loader.get_dataloader(
-        train_path='/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/processed/train.dataset',
-        valid_path='/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/processed/valid.dataset'
+        train_path='/content/XLM-Finetune/data-bin/processed/train.dataset',
+        valid_path='/content/XLM-Finetune/data-bin/processed/valid.dataset'
     )
     
     train_dataset = train_dataset.to("cuda")
@@ -23,8 +23,8 @@ if __name__ == "__main__":
     
     '''
     train_dataset, valid_dataset = data_loader.get_dataloader(
-        train_path='/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/processed/train.dataset',
-        valid_path='/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/processed/valid.dataset'
+        train_path='/content/XLM-Finetune/data-bin/processed/train.dataset',
+        valid_path='/content/XLM-Finetune/data-bin/processed/valid.dataset'
     )
     '''
     

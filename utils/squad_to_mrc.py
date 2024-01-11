@@ -89,12 +89,12 @@ def handle_file(file_path):
 
 
 if __name__ == "__main__":
-    list_data_file = glob('/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/raw/squad/*')
+    list_data_file = glob('/content/XLM-Finetune/data-bin/raw/squad/*')
     dict_data_squad = []
     for file_name in list_data_file:
         dict_data_squad.extend(handle_file(file_name))
 
-    with open('/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/unify/squad_mrc.jsonl', 'w', encoding='utf-8') as file:
+    with open('/content/XLM-Finetune/data-bin/unify/squad_mrc.jsonl', 'w', encoding='utf-8') as file:
         for item in dict_data_squad:
             file.write("{}\n".format(json.dumps(item, ensure_ascii=False)))
 

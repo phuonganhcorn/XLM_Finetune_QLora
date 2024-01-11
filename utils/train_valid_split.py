@@ -24,7 +24,7 @@ def format_sample(sample):
 if __name__ == "__main__":
     train_set = []
     valid_set = []
-    for part in glob.glob('/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/unify/*.jsonl'):
+    for part in glob.glob('/content/XLM-Finetune/data-bin/unify/*.jsonl'):
         dataset = datasets.load_dataset('json', data_files=[part])['train']
         dataset.filter(assert_sample)
         dataset = dataset.map(format_sample)
@@ -38,8 +38,8 @@ if __name__ == "__main__":
     train_dataset = concatenate_datasets(train_set)
     valid_dataset = concatenate_datasets(valid_set)
 
-    train_dataset.save_to_disk('/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/processed/train.dataset')
-    valid_dataset.save_to_disk('/content/drive/MyDrive/XLMFinetune/extractive-qa-mrc/data-bin/processed/valid.dataset')
+    train_dataset.save_to_disk('/content/XLM-Finetune/data-bin/processed/train.dataset')
+    valid_dataset.save_to_disk('/content/XLM-Finetune/data-bin/processed/valid.dataset')
 
     print("Train: {} samples".format(len(train_dataset)))
     print("Valid: {} samples".format(len(valid_dataset)))
