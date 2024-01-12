@@ -6,7 +6,7 @@ import numpy as np
 from nltk import word_tokenize
 
 tokenizer = AutoTokenizer.from_pretrained("xlm-roberta-large",
-                                          cache_dir='./model-bin/cache',
+                                          cache_dir='/content/XLM-Finetune/model-bin2/cache',
                                           #local_files_only=True
                                          )
 

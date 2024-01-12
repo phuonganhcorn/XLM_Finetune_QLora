@@ -28,10 +28,10 @@ if __name__ == "__main__":
     )
     '''
     
-    training_args = TrainingArguments("model-bin/test",
+    training_args = TrainingArguments("/content/XLM-Finetune/model-bin2/test",
                                       do_train=True,
                                       do_eval=True,
-                                      num_train_epochs=10,
+                                      num_train_epochs=4,
                                       learning_rate=1e-4,
                                       warmup_ratio=0.05,
                                       weight_decay=0.01,
