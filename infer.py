@@ -1,9 +1,7 @@
 from model.mrc_model import MRCQuestionAnswering
-from transformers import AutoTokenizer, pipeline, RobertaForQuestionAnswering
+from transformers import AutoTokenizer, pipeline
 import torch
 from nltk import word_tokenize
-from transformers.models.auto import MODEL_FOR_QUESTION_ANSWERING_MAPPING
-
 
 def tokenize_function(example, tokenizer):
     question_word = word_tokenize(example["question"])
@@ -31,13 +29,11 @@ def tokenize_function(example, tokenizer):
         "valid": valid
     }
 
-
 def data_collator(samples, tokenizer):
     if len(samples) == 0:
         return {}
 
     def collate_tokens(values, pad_idx, eos_idx=None, left_pad=False, move_eos_to_beginning=False):
-        """Convert a list of 1d tensors into a padded 2d tensor."""
         size = max(v.size(0) for v in values)
         res = values[0].new(len(values), size).fill_(pad_idx)
 
@@ -68,15 +64,12 @@ def data_collator(samples, tokenizer):
 
     return batch_samples
 
-
 def extract_answer(inputs, outputs, tokenizer):
     plain_result = []
     for sample_input, start_logit, end_logit in zip(inputs, outputs.start_logits, outputs.end_logits):
         sample_words_length = sample_input['words_lengths']
         input_ids = sample_input['input_ids']
-        # Get the most likely beginning of answer with the argmax of the score
         answer_start = sum(sample_words_length[:torch.argmax(start_logit)])
-        # Get the most likely end of answer with the argmax of the score
         answer_end = sum(sample_words_length[:torch.argmax(end_logit) + 1])
 
         if answer_start <= answer_end:
@@ -96,28 +89,25 @@ def extract_answer(inputs, outputs, tokenizer):
         })
     return plain_result
 
-
 if __name__ == "__main__":
-    model_checkpoint = "nguyenvulebinh/vi-mrc-base"
+    model_checkpoint = "/content/XLM-Finetune/model-bin2/test/checkpoint-26128"
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
     model = MRCQuestionAnswering.from_pretrained(model_checkpoint)
 
-    print(model)
-
     QA_input = {
-        'question': "Bình được công nhận với danh hiệu gì ?",
-        'context': "Bình Nguyễn là một người đam mê với lĩnh vực xử lý ngôn ngữ tự nhiên . Anh nhận chứng chỉ Google Developer Expert năm 2020"
+        'question': "Thủ đô Việt Nam là ở đâu?",
+        'context': "Thủ đô Việt Nam là Hà Nội."
     }
+
     while True:
         if len(QA_input['question'].strip()) > 0:
-            inputs = [tokenize_function(QA_input)]
-            inputs_ids = data_collator(inputs)
+            inputs = [tokenize_function(QA_input, tokenizer)]
+            inputs_ids = data_collator(inputs, tokenizer)
             outputs = model(**inputs_ids)
             answer = extract_answer(inputs, outputs, tokenizer)[0]
             print("answer: {}. Score start: {}, Score end: {}".format(answer['answer'],
                                                                       answer['score_start'],
                                                                       answer['score_end']))
-
         else:
             QA_input['context'] = input('Context: ')
         QA_input['question'] = input('Question: ')
