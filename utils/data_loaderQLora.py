@@ -14,10 +14,9 @@ bnb_config = BitsAndBytesConfig(
 )
 
 tokenizer = AutoTokenizer.from_pretrained(model_id,
-                                          cache_dir='/home/phanh/Downloads/XLM-Finetune/XLM-Finetune/model-bin2/cache',
+                                          cache_dir='/content/XLM-Finetune/model-bin2/cache',
                                           #local_files_only=True
                                          )
-
 
 def compute_metrics(eval_pred):
     metric = datasets.load_metric("squad", cache_dir='./log/metric')
@@ -116,51 +115,32 @@ def tokenize_function(example):
     # max_len_single_sentence = tokenizer.max_len_single_sentence
     max_len_single_sentence = 368
 
-    # Tokenize question and context separately
-    question_sub_words_ids = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(example["question"]))
-    context_sub_words_ids = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(example["context"]))
-
-    # Combine question and context tokens
-    all_tokens_ids = question_sub_words_ids + context_sub_words_ids
-
+    question_sub_words_ids = [tokenizer.convert_tokens_to_ids(tokenizer.tokenize(w)) for w in example["question"]]
+    context_sub_words_ids = [tokenizer.convert_tokens_to_ids(tokenizer.tokenize(w)) for w in example["context"]]
     valid = True
-
-    # Check if the combined tokens exceed the maximum length
-    if len(all_tokens_ids) > max_len_single_sentence - 1:
-        question_ids = question_sub_words_ids
-        context_ids = context_sub_words_ids[:example['answer_word_end_idx'] + 1]
-
+    if len([j for i in question_sub_words_ids + context_sub_words_ids for j in
+            i]) > max_len_single_sentence - 1:
+        question_ids = [j for i in question_sub_words_ids for j in i]
+        context_ids = [j for i in context_sub_words_ids[:example['answer_word_end_idx'] + 1] for j in i]
         remain_tokens = max_len_single_sentence - 1 - len(question_ids)
-
-        # Check if the combined question and context tokens are still within the limit
         if len(question_ids + context_ids) < max_len_single_sentence - 1:
             context_sub_words_ids_revise = context_sub_words_ids[:example['answer_word_end_idx'] + 1]
             idx = example['answer_word_end_idx'] + 1
-
-            # Add context tokens until the limit is reached
-            while idx < len(context_sub_words_ids) and len(all_tokens_ids) < max_len_single_sentence - 1:
+            while len([j for i in (context_sub_words_ids_revise + [context_sub_words_ids[idx]]) for j in
+                       i]) < remain_tokens and idx < len(context_sub_words_ids):
                 context_sub_words_ids_revise.append(context_sub_words_ids[idx])
-                all_tokens_ids.append(context_sub_words_ids[idx])
                 idx += 1
-    else:
-        valid = False
+            context_sub_words_ids = context_sub_words_ids_revise
+        else:
+            valid = False
 
-
-    # Add special tokens for the beginning and end of the question
     question_sub_words_ids = [[tokenizer.bos_token_id]] + question_sub_words_ids + [[tokenizer.eos_token_id]]
-    # Add special token for the end of the context
     context_sub_words_ids = context_sub_words_ids + [[tokenizer.eos_token_id]]
 
-    # Combine question and context tokens
     input_ids = [j for i in question_sub_words_ids + context_sub_words_ids for j in i]
-
-    valid = True
-
-    # Check if the combined tokens exceed the maximum length
     if len(input_ids) > max_len_single_sentence + 2:
         valid = False
 
-    # Calculate the lengths of individual words in the combined question and context
     words_lengths = [len(item) for item in question_sub_words_ids + context_sub_words_ids]
 
     return {
@@ -172,7 +152,6 @@ def tokenize_function(example):
             example["answer_text"]) > 0 else 0,
         "valid": valid
     }
-
 
 
 def get_dataloader(train_path, valid_path, batch_size=2, num_proc=10):
@@ -204,7 +183,7 @@ def get_dataloader(train_path, valid_path, batch_size=2, num_proc=10):
 
 
 def build_target_dictionary():
-    data_set = datasets.load_from_disk('/home/phanh/Downloads/XLM-Finetune/data-bin/processed/train.dataset')
+    data_set = datasets.load_from_disk('./data-bin/processed/train.dataset')
     labels = set([item['language'] for item in data_set])
     labels2id = {tag: idx for idx, tag in enumerate(labels)}
     # id2labels = {idx: tag for tag, idx in labels2id.items()}
@@ -221,8 +200,8 @@ def build_target_dictionary():
 if __name__ == "__main__":
 
     train_dataset, valid_dataset = get_dataloader(
-        train_path='/home/phanh/Downloads/XLM-Finetune/data-bin/processed/train.dataset',
-        valid_path='/home/phanh/Downloads/XLM-Finetune/data-bin/processed/valid.dataset'
+        train_path='../data-bin/processed/train.dataset',
+        valid_path='../data-bin/processed/valid.dataset'
     )
     from tqdm import tqdm
 
