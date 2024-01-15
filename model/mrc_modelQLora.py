@@ -42,6 +42,7 @@ class MRCQuestionAnswering(RobertaPreTrainedModel):
         start_positions=None,
         end_positions=None,
         span_answer_ids=None,
+        labels=None,  # Add this line
         output_attentions=None,
         output_hidden_states=None,
         return_dict=None,
@@ -87,7 +88,7 @@ class MRCQuestionAnswering(RobertaPreTrainedModel):
         end_logits = end_logits.squeeze(-1).contiguous()
 
         total_loss = self.compute_loss(
-            start_logits, end_logits, start_positions, end_positions
+            start_logits, end_logits, start_positions, end_positions, labels  # Add this line
         )
 
         if not return_dict:
@@ -118,22 +119,23 @@ class MRCQuestionAnswering(RobertaPreTrainedModel):
         align_matrix = align_matrix.to(context_embedding.device)
         return align_matrix
 
-    def compute_loss(self, start_logits, end_logits, start_positions, end_positions):
-        total_loss = None
-        if start_positions is not None and end_positions is not None:
-            # If we are on multi-GPU, add a dimension
-            if len(start_positions.size()) > 1:
-                start_positions = start_positions.squeeze(-1)
-            if len(end_positions.size()) > 1:
-                end_positions = end_positions.squeeze(-1)
+    def compute_loss(self, start_logits, end_logits, start_positions, end_positions, labels=None):  # Corrected line
+      total_loss = None
+      if start_positions is not None and end_positions is not None:
+          # If we are on multi-GPU, add a dimension
+          if len(start_positions.size()) > 1:
+              start_positions = start_positions.squeeze(-1)
+          if len(end_positions.size()) > 1:
+              end_positions = end_positions.squeeze(-1)
 
-            ignored_index = start_logits.size(1)
-            start_positions = start_positions.clamp(0, ignored_index)
-            end_positions = end_positions.clamp(0, ignored_index)
+          ignored_index = start_logits.size(1)
+          start_positions = start_positions.clamp(0, ignored_index)
+          end_positions = end_positions.clamp(0, ignored_index)
 
-            loss_fct = CrossEntropyLoss(ignore_index=ignored_index)
-            start_loss = loss_fct(start_logits, start_positions)
-            end_loss = loss_fct(end_logits, end_positions)
-            total_loss = (start_loss + end_loss) / 2
+          loss_fct = CrossEntropyLoss(ignore_index=ignored_index)
+          start_loss = loss_fct(start_logits, start_positions)
+          end_loss = loss_fct(end_logits, end_positions)
+          total_loss = (start_loss + end_loss) / 2
 
-        return total_loss
+      return total_loss
+
