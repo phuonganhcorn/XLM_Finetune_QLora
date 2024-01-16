@@ -1,7 +1,7 @@
 from transformers import TrainingArguments, BitsAndBytesConfig, AutoTokenizer, Trainer
-from model.mrc_modelQLora import MRCQuestionAnswering
+from XLMFinetune.utils import data_loader
+from XLMFinetune.model.mrc_modelQLora import MRCQuestionAnswering
 import transformers
-from utils import data_loader
 import numpy as np
 from datasets import load_metric
 import os
@@ -20,11 +20,11 @@ if __name__ == "__main__":
         bnb_4bit_compute_dtype=torch.bfloat16
     )
     tokenizer = AutoTokenizer.from_pretrained(model_id,
-                                          cache_dir='/content/XLM-Finetune/XLM-Finetune/model-bin2/cache',
+                                          cache_dir='/content/XLMFinetune/model-bin2/cache',
                                           #local_files_only=True
                                          )
 
-    model = MRCQuestionAnswering.from_pretrained(model_id, quantization_config=bnb_config, device_map={"":0},cache_dir='/home/phanh/Downloads/XLM-Finetune/model-bin2/cache')
+    model = MRCQuestionAnswering.from_pretrained(model_id, quantization_config=bnb_config, device_map={"":0},cache_dir='/content/XLMFinetune/model-bin2/cache')
     print(model)
     #model.to("cuda")
 
@@ -54,8 +54,8 @@ if __name__ == "__main__":
         
 
     train_dataset, valid_dataset = data_loader.get_dataloader(
-        train_path='/content/XLM-Finetune/data-bin/processed/train.dataset',
-        valid_path='/content/XLM-Finetune/data-bin/processed/valid.dataset'
+        train_path='/content/XLMFinetune/data-bin/processed/train.dataset',
+        valid_path='/content/XLMFinetune/data-bin/processed/valid.dataset'
     )
     
     #train_dataset = train_dataset.to("cuda")
@@ -63,12 +63,12 @@ if __name__ == "__main__":
     
     '''
     train_dataset, valid_dataset = data_loader.get_dataloader(
-        train_path='/content/XLM-Finetune/data-bin/processed/train.dataset',
-        valid_path='/content/XLM-Finetune/data-bin/processed/valid.dataset'
+        train_path='/content/XLMFinetune/data-bin/processed/train.dataset',
+        valid_path='/content/XLMFinetune/data-bin/processed/valid.dataset'
     )
     '''
     
-    training_args = TrainingArguments("/content/XLM-Finetune/model-bin2/test",
+    training_args = TrainingArguments("/content/XLMFinetune/model-bin2/test",
                                       do_train=True,
                                       do_eval=True,
                                       num_train_epochs=2,
