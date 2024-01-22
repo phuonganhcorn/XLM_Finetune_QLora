@@ -20,7 +20,7 @@ if __name__ == "__main__":
         bnb_4bit_compute_dtype=torch.bfloat16
     )
     tokenizer = AutoTokenizer.from_pretrained(model_id,
-                                          cache_dir='/content/XLMFinetune/model-bin2/cache',
+                                          cache_dir='/content/XLM_Finetune_QLora/model-bin2/cache',
                                           #local_files_only=True
                                          )
 
@@ -54,8 +54,8 @@ if __name__ == "__main__":
         
 
     train_dataset, valid_dataset = data_loader.get_dataloader(
-        train_path='/content/XLMFinetune/data-bin/processed/train.dataset',
-        valid_path='/content/XLMFinetune/data-bin/processed/valid.dataset'
+        train_path='/content/XLM_Finetune_QLora/data-bin/processed/train.dataset',
+        valid_path='/content/XLM_Finetune_QLora/data-bin/processed/valid.dataset'
     )
     
     #train_dataset = train_dataset.to("cuda")
@@ -63,12 +63,12 @@ if __name__ == "__main__":
     
     '''
     train_dataset, valid_dataset = data_loader.get_dataloader(
-        train_path='/content/XLMFinetune/data-bin/processed/train.dataset',
-        valid_path='/content/XLMFinetune/data-bin/processed/valid.dataset'
+        train_path='/content/XLM_Finetune_QLora/data-bin/processed/train.dataset',
+        valid_path='/content/XLM_Finetune_QLora/data-bin/processed/valid.dataset'
     )
     '''
     
-    training_args = TrainingArguments("/content/XLMFinetune/model-bin2/test",
+    training_args = TrainingArguments("/content/XLM_Finetune_QLora/model-bin2/test",
                                       do_train=True,
                                       do_eval=True,
                                       num_train_epochs=2,
