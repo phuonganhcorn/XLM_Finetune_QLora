@@ -97,5 +97,5 @@ This is the model I that already applied QLoRA and finetuned it with the dataset
 #### Training model on Google Colab
 For users want to finetune model on Google Colab, can use 2 file which are ```XLMQLoraMRC.ipynb``` and ```XLMFinetune_raw.ipynb```
 > [!CAUTION]
-> With ```XLMFinetune_raw.ipynb```, because this is the version that I didn't apply QLoRA on. The maximum epochs that this model can run on free T4 GPU on Google Colab is 4 epochs (recommend 3 for inference later).
-> ```XLMQLoraMRC.ipynb``` can run up to 7 epochs.
+> - With ```XLMFinetune_raw.ipynb```, because this is the version that I didn't apply QLoRA on. The maximum epochs that this model can run on free T4 15GB GPU on Google Colab is 4 epochs (recommend 3 for inference later).
+> - ```XLMQLoraMRC.ipynb``` can run up to 7 epochs.
