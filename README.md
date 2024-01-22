@@ -88,7 +88,7 @@ nlp = pipeline('question-answering', model=model_checkpoint,
                    tokenizer=model_checkpoint)
 QA_input = {
   'question': "Một năm có bao nhiêu tháng có 31 ngày?",
-  'context': "8 tháng"
+  'context': "Một năm có 12 tháng, trong đó có 7 tháng có 31 ngày và 4 tháng có 30 ngày."
 }
 res = nlp(QA_input)
 print('pipeline: {}'.format(res))
