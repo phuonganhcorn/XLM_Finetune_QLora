@@ -19,5 +19,8 @@ Users can refer to the requirements.txt file for detailed information about the 
 ```bash
 pip install -r requirements.txt
 ```
-> [!CAUTION]
-
+> [!TIP]
+> ```wandb```:
+> - This project leverages the Weights and Biases library to automatically visualize training loss, evaluation loss, and store runtime information, streamlining the tracking process. Users who only want to try interface of pre-trained model or don't need this can remove ```wandb``` from requirements.txt.
+> - Alternatively, I strongly recommend users who wish to fine-tune this model for their specific tasks to create a new ```wandb``` (Weights and Biases) account for saving their models.
+> Same with ```huggingface_hub``` library
