@@ -47,9 +47,11 @@ python utils/train_valid_split.py
 ```
 
 The project focused on building a QA model for Vietnamese task. So _the valid set is Vietnamese only_ 
+
 In **total we have 15466 samples** and in my case, I split it with 10% (this is optional, users can change this percentage to their preference) into 2 train and valid set. This will make
-**- Train set: 13919 samples**
-**- Valid: 1547 samples**
+
+- **Train set: 13919 samples**
+- **Valid: 1547 samples**
 
 #### 3. FINETUNE MODEL
 ##### 3.1. Raw model with no QLoRA
