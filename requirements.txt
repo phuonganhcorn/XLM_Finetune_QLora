@@ -6,3 +6,4 @@ tensorboard
 tensorboardX
 accelerate
 huggingface_hub
+wandb
