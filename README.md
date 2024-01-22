@@ -1,7 +1,7 @@
 # Finetune XLMRoBERTa with QLoRA for Vietnamese QA task
 #### Author: Ngo Phuong Anh
 
-> **[!NOTE]**
+> [!NOTE]
 > - This model is an optimized version of **XLMRoBERTa model** for finetuning it for QA task by **applied LoRA/QLoRA** into training process.
 > - This project is inspired by a state-of-art **Mistral7B Large Language model** and a Finetuned XLMRoBERTa Version for Vietnamese Question Answering made by Nguyen Vu Le Binh.
 
@@ -18,7 +18,7 @@ Users can refer to the requirements.txt file for detailed information about the 
 ```bash
 pip install -r requirements.txt
 ```
-> **[!TIP]**
+> [!TIP]
 > 1. This project leverages the **Weights and Biases library** to automatically visualize training loss, evaluation loss, and store runtime information, streamlining the tracking process. *Users who only want to try interface of pre-trained model or don't need this can remove ```wandb``` from requirements.txt.*
 > - Alternatively, I strongly recommend users who wish to fine-tune this model for their specific tasks to create a new ```wandb``` (Weights and Biases) account for saving their models.
 > 2. Same with ```huggingface_hub``` library
@@ -67,7 +67,7 @@ python mainQLora.py
 ```
 This bash script will train model with QLoRA on it.
 
-> **[!NOTE]**
+> [!NOTE]
 > By running ```main``` file, we run other file which are```utils/data_loader.py``` (For load data into base model) and ```model/mrc_model.py``` (Load base model).
 
 #### 4. Inference
@@ -97,6 +97,6 @@ This is the model I that already applied QLoRA and finetuned it with the dataset
 
 #### Training model on Google Colab
 For users want to finetune model on Google Colab, can use 2 file which are ```XLMQLoraMRC.ipynb``` and ```XLMFinetune_raw.ipynb```
-> **[!CAUTION]**
+> [!CAUTION]
 > - With ```XLMFinetune_raw.ipynb```, because this is the version that I didn't apply QLoRA on. The maximum epochs that this model can run on free T4 15GB GPU on Google Colab is 4 epochs (recommend 3 for inference later).
 > - ```XLMQLoraMRC.ipynb``` can run up to 7 epochs.
