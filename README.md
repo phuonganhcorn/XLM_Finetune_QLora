@@ -3,7 +3,7 @@
 
 > [!NOTE]
 > - This model is an optimized version of **XLMRoBERTa model** for QA task by **applied LoRA/QLoRA** into training process.
-> - This project is inspired by a state-of-art **Mistral7B Large Language model** and a Finetuned XLMRoBERTa Version for Vietnamese Question Answering Model made by Nguyen Vu Le Binh.
+> - This project is inspired by a state-of-art **Mistral7B Large Language Model** and a Finetuned XLMRoBERTa Version for Vietnamese Question Answering Model made by Nguyen Vu Le Binh.
 
 
 ### OVERVIEW
