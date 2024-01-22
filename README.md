@@ -19,5 +19,5 @@ Users can refer to the requirements.txt file for detailed information about the 
 ```bash
 pip install -r requirements.txt
 ```
-> [!CATION]
+> [!CAUTION]
 
