@@ -7,7 +7,7 @@
 
 
 ### OVERVIEW
-- Presently, there exist several versions of Vietnamese QA models. The objective of this project is to **_create an optimized model by using XLM and QLoRA_**. This new model aims to enable users to efficiently fine-tune it for their specific tasks on smaller GPU hardware if desired.
+- Presently, there exist several versions of Vietnamese QA models. The objective of this project is to **_create an optimized model by using XLMRoBERTa and QLoRA_**. This new model aims to enable users to efficiently fine-tune it for their specific tasks on smaller GPU hardware if desired.
   - **XLM-RoBERTa** is a pre-trained cross-lingual language model developed by Facebook AI. It combines elements from two popular models, XLM (Cross-Lingual Language Model) and RoBERTa, to create a model that is capable of understanding and generating text in multiple languages. 
   - The core architecture of XLM-RoBERTa is built based on Transformer architecture with Attention Mechanism. Made it better than other RNN, LTSM model for NLP tasks.
   - **LoRA (Low Rank Adaptation) - QLoRA** encompasses two techniques designed to expedite the model fine-tuning process, facilitating users to train models efficiently on smaller GPU hardware.
