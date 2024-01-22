@@ -61,7 +61,7 @@ python main.py
 
 This bash script will train model withouth apply QLoRA on it. 
 
-#### 3.2. Finetune model with QLoRA
+##### 3.2. Finetune model with QLoRA
 ```bash
 python mainQLora.py
 ```
