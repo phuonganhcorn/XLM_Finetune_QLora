@@ -2,8 +2,8 @@
 #### Author: Ngo Phuong Anh
 
 > [!NOTE]
-> - This model is an optimized version of **XLMRoBERTa model** for finetuning it for QA task by **applied LoRA/QLoRA** into training process.
-> - This project is inspired by a state-of-art **Mistral7B Large Language model** and a Finetuned XLMRoBERTa Version for Vietnamese Question Answering made by Nguyen Vu Le Binh.
+> - This model is an optimized version of **XLMRoBERTa model** for QA task by **applied LoRA/QLoRA** into training process.
+> - This project is inspired by a state-of-art **Mistral7B Large Language model** and a Finetuned XLMRoBERTa Version for Vietnamese Question Answering Model made by Nguyen Vu Le Binh.
 
 
 ### OVERVIEW
@@ -25,7 +25,7 @@ pip install -r requirements.txt
 
 ### DATASET
 #### 1. Information
-In this project, the Dataset is combination of four large Vietnamese dataset which are
+In this project, the Dataset is a combination of four large Vietnamese datasets which are
 - Translated version of the Stanford Question Answering Dataset (SQuAD)
 - UIT-ViQuAD (developed by UIT)
 - MultiLingual Question Answering
@@ -96,7 +96,7 @@ print('pipeline: {}'.format(res))
 This is the model I that already applied QLoRA and finetuned it with the dataset for Vietnamese QA task that we prepared before.
 
 #### Training model on Google Colab
-For users want to finetune model on Google Colab, can use 2 file which are ```XLMQLoraMRC.ipynb``` and ```XLMFinetune_raw.ipynb```
+For users who want to finetune model on Google Colab, can use 2 files which are ```XLMQLoraMRC.ipynb``` and ```XLMFinetune_raw.ipynb```
 > [!CAUTION]
 > - With ```XLMFinetune_raw.ipynb```, because this is the version that I didn't apply QLoRA on. The maximum epochs that this model can run on free T4 15GB GPU on Google Colab is 4 epochs (recommend 3 for inference later).
 > - ```XLMQLoraMRC.ipynb``` can run up to 7 epochs.
