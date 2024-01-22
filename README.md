@@ -1,4 +1,4 @@
-# XLM-Finetune-QLoRA for Vietnamese Language
+# Finetune XLMRoBERTa with QLoRA for Vietnamese QA task
 #### Author: Ngo Phuong Anh
 
 
