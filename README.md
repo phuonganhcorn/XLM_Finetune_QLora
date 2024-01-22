@@ -32,18 +32,70 @@ In this project, the Dataset is combination of four large Vietnamese dataset whi
 - MultiLingual Question Answering
 - mailong25
 
+For a more detailed view, users can refer to the contents in the ```data-bin``` folder.
+
 #### 2. Handle Dataset
-**_2.1_** By executing the provided scripts, users can process datasets and configure them into the required JSON format before feeding them into our model.
+##### 2.1. Config data 
+By executing the provided scripts, users can process datasets and configure them into the required JSON format before feeding them into our model.
 ```bash
 python utils/squad_to_mrc.py
 ```
-**_2.2_** After process dataset, run this bash script below to split our dataset into train set and valid set
+
+##### 2.2. Split data 
+After process dataset, run this bash script below to split our dataset into train set and valid set
 ```bash
 python utils/train_valid_split.py
 ```
 
-The project focused on building a QA model for Vietnamese task. So the valid set is Vietnamese only 
+The project focused on building a QA model for Vietnamese task. So _the valid set is Vietnamese only_ 
 In **total we have 15466 samples** and in my case, I split it with 10% (this is optional, users can change this percentage to their preference) into 2 train and valid set. This will make
 **- Train set: 13919 samples**
 **- Valid: 1547 samples**
 
+#### 3. Finetune model
+##### 3.1. Raw model with no QLoRA
+```bash
+python main.py
+```
+
+This bash script will train model withouth apply QLoRA on it. 
+
+#### 3.2. Finetune model with QLoRA
+```bash
+python mainQLora.py
+```
+This bash script will train model with QLoRA on it.
+
+> [!NOTE]
+> By running ```main``` file, we run other file which are```utils/data_loader.py``` (For load data into base model) and ```model/mrc_model.py``` (Load base model).
+
+#### 4. Inference
+After training process, users can run
+```bash
+python infer.py
+```
+This will allow us to run model we just trained.
+
+#### 5. Pre-trained
+For users who only want to run inference, can run this code
+```py
+# test model on hugging face
+
+from transformers import pipeline
+model_checkpoint = "Phanh2532/XLMQLoraCustom"
+nlp = pipeline('question-answering', model=model_checkpoint,
+                   tokenizer=model_checkpoint)
+QA_input = {
+  'question': "Một năm có bao nhiêu tháng có 31 ngày?",
+  'context': "8 tháng"
+}
+res = nlp(QA_input)
+print('pipeline: {}'.format(res))
+```
+This is the model I that already applied QLoRA and finetuned it with the dataset for Vietnamese QA task that we prepared before.
+
+#### Training model on Google Colab
+For users want to finetune model on Google Colab, can use 2 file which are ```XLMQLoraMRC.ipynb``` and ```XLMFinetune_raw.ipynb```
+> [!CAUTION]
+> With ```XLMFinetune_raw.ipynb```, because this is the version that I didn't apply QLoRA on. The maximum epochs that this model can run on free T4 GPU on Google Colab is 4 epochs (recommend 3 for inference later).
+> ```XLMQLoraMRC.ipynb``` can run up to 7 epochs.
